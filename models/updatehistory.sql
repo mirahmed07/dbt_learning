@@ -1,5 +1,5 @@
 {{ config (
-    materialized="table"
+    materialized="view"
 )}}
 with final as (
 SELECT
@@ -13,5 +13,6 @@ FROM pg_class_info
 LEFT JOIN pg_namespace ON pg_class_info.relnamespace = pg_namespace.oid
 WHERE reltype != 0
 AND TRIM(nspname) in ('dbt_mahmed', 'analytics', 'jaffle_shop', 'stripe')
+order by 1,2
 )
 select * from final
