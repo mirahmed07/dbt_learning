@@ -4,24 +4,17 @@
     2. finds objects that are > 1 week old (no longer maintained)
     3. generates automated drop statements
     4. has the ability to execute those drop statements
-    5. does not work on redshift!!!!
 
 #}
 
 {% macro clean_stale_models(database=target.database, schema=target.schema, days=7, dry_run=True) %}
     
     {% set get_drop_commands_query %}
-        select
-            case 
-                when table_type = 'VIEW'
-                    then table_type
-                else 
-                    'TABLE'
-            end as drop_type, 
-            'DROP ' || drop_type || ' {{ database | upper }}.' || table_schema || '.' || table_name || ';'
-        from {{ database }}.information_schema.tables 
-        where table_schema = '{{ schema }}'
-        and last_altered <= current_date - {{ days }} 
+        select 'TABLE' as drop_type,
+        'DROP ' || drop_type || ' {{ database | upper }}.' || schema_name || '.' || table_name || ';'
+        from {{ database }}.{{ schema }}.updatehistory 
+        where relationtype = 'table'
+        and trunc(creation_time) - current_date > {{ days }}
     {% endset %}
 
     {{ log('\nGenerating cleanup queries...\n', info=True) }}
