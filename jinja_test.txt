@@ -1,0 +1,33 @@
+{#
+{% set my_cool_string = 'Wow! Cool!'%}
+{% set my_cool_string2 = 'Jinja'%}
+{% set my_cool_num = 100 %}
+{{ my_cool_string }} I want to write {{ my_cool_string2 }} for {{ my_cool_num }} years!
+#}
+{#
+{% set my_animals = ['lemur', 'wolf', 'panther', 'lion'] %}
+{{ my_animals[0] }}
+{% for x in my_animals %}
+    My favorite animal is the {{ x }}
+{% endfor %}
+#}
+{#
+{% set temperature = 45 %}
+{% if temperature < 65 %}
+    Time for a cappuccino!
+{%else%}
+    TIme for a cold beer!
+{% endif %}
+#}
+{#
+{%- set foods = ['carrot', 'hotdog', 'cucumber', 'bell pepper'] -%}
+{% for food in foods %}
+    {%- if food == 'hotdog' -%}
+        {%- set food_type = 'snack' -%}
+    {%- else -%}
+        {%- set food_type = 'vegetable' -%}
+    {%- endif -%}
+
+    The humble {{ food }} is my favorite {{ food_type }}!
+{% endfor %}
+#}
