@@ -1,0 +1,2 @@
+# .dbtignore
+union_tables_by_stg_prefix.sql
